@@ -3,11 +3,12 @@ const { addIncome, getIncomes, deleteIncome } = require('../controlles/income');
 
 const router = require('express').Router();
 
-router.post('/add-income', addIncome)
-       .get('/get-income', getIncomes)
-       .delete('/delete-income/:id', deleteIncome)
-       .post('/get-expense', addExpense)
-       .get('/get-expense', getExpense)
-       .delete('/delete-expense/:id', deleteExpense)
+router.post('/add-income', addIncome);
+router.get('/get-income', getIncomes);
+router.delete('/delete-income/:id', deleteIncome);
 
-module.exports = router; 
+router.post('/add-expense', addExpense);
+router.get('/get-expense', getExpense);
+router.delete('/delete-expense/:id', deleteExpense);
+
+module.exports = router;

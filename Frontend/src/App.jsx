@@ -7,9 +7,13 @@ import Navigation from './componets/navigation/navigation';
 import Dashboard from './componets/dashboard/Dashboard';
 import Expenses from './componets/expenses/Expenses';
 import Incomes from './componets/income/Incomes';
+import { useGlobalContext } from './context/globalcontext';
 
 function App() {
   const [active, setActive] = useState(1);
+
+  const global = useGlobalContext()
+  console.log(global);
 
   const displayData = () =>{
     switch(active){
