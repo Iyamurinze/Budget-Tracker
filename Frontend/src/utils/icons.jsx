@@ -9,7 +9,7 @@ export const expenses = <i className="fa-solid fa-money-bill-transfer"></i>
 export const money = <i className="fa-solid fa-money-bill"></i>
 export const freelance = <i className="fa-solid fa-earth-americas"></i>
 export const stocks = <i className="fa-solid fa-arrow-trend-up"></i>
-export const bitcoin = <i className="fa-solid fa-bitcoin"></i>
+export const bitcoin = <i className="fa-solid fa-bitcoin-sign"></i>
 export const piggy = <i className="fa-solid fa-piggy-bank"></i>
 export const yt = <i className="fa-brands fa-youtube"></i>
 export const card = <i className="fa-brands fa-cc-visa"></i>

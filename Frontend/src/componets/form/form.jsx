@@ -7,7 +7,7 @@ import Button from "../button/button";
 import { plus } from '../../utils/icons';
 
 export default function From(){
-    const {addIncome} = useGlobalContext()
+    const {addIncome, getIncomes} = useGlobalContext()
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -16,15 +16,17 @@ export default function From(){
         description: '',
     })
     const { title, amount, date, category, description } = inputState;
-    const handleInput = name => e =>{
-        setInputState({...inputState, [name]: e.target.value})
+    const handleInput =  (e) =>{
+        const { name, value } = e.target;
+        setInputState({...inputState, [name]: value})
     }
-    const handleSubmit = e =>{
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         console.log("Submitting form data:", inputState);
-        addIncome(inputState)
-    }
-
+        await addIncome(inputState);
+        getIncomes();
+    };
+    
     return(
         <FromStyled onSubmit={handleSubmit}>
             <div className="input-control">
@@ -33,7 +35,7 @@ export default function From(){
             value={title}
             name={'title'}
             placeholder="salary Title"
-            onChange={handleInput('title')}
+            onChange={handleInput}
                  />
             </div>
             <div className="input-control">
@@ -43,7 +45,7 @@ export default function From(){
             name={'amount'}
             id={'amount'}
             placeholder="salary amount"
-            onChange={handleInput('amount')}
+            onChange={handleInput}
                  />
             </div>
             <div className="input-control">
@@ -57,7 +59,7 @@ export default function From(){
              }} />
             </div>
         <div className=" selects input-control">
-            <select required value={category} name="category" id="category" onChange={handleInput('category')}>
+            <select required value={category} name="category" id="category" onChange={handleInput}>
                 <option value="" disabled>Select Option</option>
                 <option value="salary">salary</option>
                 <option value="freelancing">Freelancing</option>
@@ -69,7 +71,7 @@ export default function From(){
             </select>
         </div>
         <div className="input-control">
-            <textarea name="description" value={description} placeholder='Add a reference' id="decription" cols="30" rows="3" onChange={handleInput('description')}></textarea>
+            <textarea name="description" value={description} placeholder='Add a reference' id="decription" cols="30" rows="3" onChange={handleInput}></textarea>
         </div>
         <div className="submit-btn">
             <Button 

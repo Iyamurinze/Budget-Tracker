@@ -7,7 +7,7 @@ const IncomeSchema = new mongoose.Schema({
         trim: true,
         maxlength: 50
     },
-    amonunt: {
+    amount: {
         type: Number,
         require: true,
         trim: true,
@@ -17,7 +17,7 @@ const IncomeSchema = new mongoose.Schema({
         type: String,
         default: "income"
     },
-    data: {
+    date: {
         type: Date,
         require: true,
         trim: true
@@ -27,7 +27,7 @@ const IncomeSchema = new mongoose.Schema({
         require: true,
         trim: true,
     },
-    descrition: {
+    description: {
         type: String,
         require: true,
         trim: true,

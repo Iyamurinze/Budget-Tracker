@@ -18,7 +18,7 @@ exports.addIncome = async (req, res) => {
             return res.status(400).json({message: 'amount must be a possitive' })
         }
         await income.save()
-        res.status(200).json({message: 'Income Added'})
+        res.status(200).json(income);
     }
     catch (error){
         res.status(500).json({message: 'server error'})

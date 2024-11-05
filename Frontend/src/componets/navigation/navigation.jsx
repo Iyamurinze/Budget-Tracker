@@ -7,7 +7,7 @@ import { signout } from "../../utils/icons";
 export default function Navigation({ active, setActive }) {
     const NavStyled = styled.nav`
         padding: 2rem 1.5rem;
-        width: 280px;
+        width: 260px;
         height: 100%;
         background: white;
         border: 3px solid #FFFFFF;
@@ -42,7 +42,7 @@ export default function Navigation({ active, setActive }) {
             display: flex;
             flex-direction: column;
             font-size: 15px;
-            height: 380px;
+            height: 100%;
             gap: 1rem;
             margin-top: 1rem;
 
