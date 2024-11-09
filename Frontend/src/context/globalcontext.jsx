@@ -100,18 +100,28 @@ export const GlobalProvider = ({ children }) => {
     const addExpense = (expenseData) => addExpensesAPI(expenseData, setExpenses, setError);
     const deleteExpense = (id) => deleteExpensesAPI(id, setExpenses, setError);
     const fetchExpense = () => getExpenses(setExpenses);
+    
+    const [data, setData] = useState(null);  // Initialize data
 
     useEffect(() =>{
-        fetchIncomes();
+        fetchIncomes('http://localhost:5000/api/add-income', { method: 'POST', body: JSON.stringify(data) })
+        .then(res => res.JSON())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
     },[]);
 
     useEffect(() =>{
-        fetchExpense();
+        fetchExpense('http://localhost:5000/api/add-income', { method: 'POST', body: JSON.stringify(data) })
+        .then(res => res.JSON())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
     },[]);
 
     return (
         <GlobalContext.Provider value={{ 
             incomes,
+            expenses,
+            error,
             addIncome, 
             getIncomes,
             deleteIncome,
