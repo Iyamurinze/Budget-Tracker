@@ -3,32 +3,26 @@ const cors = require('cors');
 const mysql = require('mysql');
 const { readdirSync } = require('fs');
 const app = express();
+const sequelize = require('./db/dbs');
+const Income = require('./models/model/incomeM');
+const Expense = require('./models/model/expenseM');
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
 
-// MySQL Database Connection
-const dbs = mysql.createConnection({
-    host: "localhost",
-    user: 'root',
-    password: '',
-    database: 'budget-tracker'
-});
-
-dbs.connect((err) => {
-    if (err) {
-        console.error("Error connecting to MySQL:", err);
-    } else {
-        console.log("Connected to MySQL database.");
-    }
-});
-
-module.exports = dbs;
+// Sync database
+sequelize.sync()
+    .then(() => {
+        console.log('Database Connected');
+    })
+    .catch(err => {
+        console.error('Error Connecting database:', err);
+    });
 
 // Middlewares
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors());
 
 // Routes
 readdirSync('./routes').map((route) => {

@@ -9,9 +9,9 @@ import IncomeItem from "../incomeItem/incomeItem";
    const {addExpense,income,getExpenses,deleteExpense, totalExpenses} = useGlobalContext()
    const [Expenses, setExpenses] = useState([])
     
-   useEffect(() =>{
-        getExpenses(setExpenses)
-    }, [])
+//    useEffect(() =>{
+//         getExpenses(setExpenses)
+//     }, [])
    
     return(
         <ExpenseStyled>
@@ -24,7 +24,7 @@ import IncomeItem from "../incomeItem/incomeItem";
 
                     <div className="incomes">
                         {Expenses.map((Expense) =>{
-                            const {_id, title, amount, date, category, description} = income;
+                            const {_id, title, amount, date, type,category, description} = income;
                             return <ExpenseItem
                                 key={_id}
                                 id={_id}
@@ -32,6 +32,7 @@ import IncomeItem from "../incomeItem/incomeItem";
                                 description={description}
                                 amount={amount} 
                                 date={date}
+                                type={type}
                                 category={category}
                                 indicatorColor="var(--color-green)"
                                 deleteItem={deleteExpense}

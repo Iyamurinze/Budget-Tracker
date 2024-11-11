@@ -1,16 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from 'axios';
+import { expenses } from "../utils/icons";
+import Incomes from "../componets/income/Incomes";
 
 const BASE_URL = "http://localhost:5000/api/v1";
 const GlobalContext = React.createContext();
 
 //calulation of Income
 
-const addIncomeAPI = async (incomeData, setIncomes, setError) => {
+export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
     try {
+        console.log(incomeData);
         const response = await axios.post(`${BASE_URL}/add-income`, incomeData);
-        setIncomes(prevIncomes => [...prevIncomes, incomeData]);
-        await getIncomes(setIncomes);
+        setIncomes(prevIncomes => [...prevIncomes, response.data]);
+        const newIncome = await getIncomes(setIncomes);
+        console.log(newIncome, response);
+
     } catch (err) {
         console.error("Error adding income:", err);
         setError(err.response?.data?.message || "Error occurred while adding income");
@@ -18,7 +23,7 @@ const addIncomeAPI = async (incomeData, setIncomes, setError) => {
 }
 
 export const getIncomes = async (setIncomes) => {
-    const response = await axios.get(`${BASE_URL}/get-income`)
+    const response = await axios.get(`${BASE_URL}/get-incomes`)
     setIncomes(response.data)
     console.log(response.data)
 }
@@ -50,8 +55,8 @@ const totalIncome = (incomes) => {
 
 const addExpensesAPI = async (expenseData, setExpenses, setError) => {
     try {
-        const response = await axios.post(`${BASE_URL}/add-expense`, expenseData);
-        setExpenses(prevExpenses => [...prevExpenses, expenseData]);
+        const response = await axios.post(`${BASE_URL}/add-expenses`, expenseData);
+        setExpenses(prevExpenses => [...prevExpenses, response.data]);
         await getExpenses(setExpenses);
     } catch (err) {
         console.error("Error adding Expense:", err);
@@ -70,6 +75,22 @@ const totalExpenses = (expenses) => {
         return total; 
     }, 0);
 };
+
+//calcurate total balance
+
+const totalBalance = () => {
+    return totalIncome() - totalExpenses()
+}
+
+// Inside GlobalContext.jsx
+const transactionsHistory = () => {
+    const { incomes, expenses } = useGlobalContext(); 
+    const history = [...incomes, ...expenses]; 
+    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return history;
+};
+
+
 
 export const getExpenses = async (setExpenses) => {
     const response = await axios.get(`${BASE_URL}/get-expense`)
@@ -100,22 +121,6 @@ export const GlobalProvider = ({ children }) => {
     const addExpense = (expenseData) => addExpensesAPI(expenseData, setExpenses, setError);
     const deleteExpense = (id) => deleteExpensesAPI(id, setExpenses, setError);
     const fetchExpense = () => getExpenses(setExpenses);
-    
-    const [data, setData] = useState(null);  // Initialize data
-
-    useEffect(() =>{
-        fetchIncomes('http://localhost:5000/api/add-income', { method: 'POST', body: JSON.stringify(data) })
-        .then(res => res.JSON())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-    },[]);
-
-    useEffect(() =>{
-        fetchExpense('http://localhost:5000/api/add-income', { method: 'POST', body: JSON.stringify(data) })
-        .then(res => res.JSON())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-    },[]);
 
     return (
         <GlobalContext.Provider value={{ 
@@ -131,7 +136,9 @@ export const GlobalProvider = ({ children }) => {
             getExpenses,
             deleteExpense,
             totalExpenses,
-            fetchExpense
+            fetchExpense,
+            totalBalance,
+            transactionsHistory
              }}>
             {children}
         </GlobalContext.Provider>

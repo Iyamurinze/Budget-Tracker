@@ -1,6 +1,7 @@
 const { addExpense, getExpenses, deleteExpense } = require("../models/expenseModel");
 
 exports.addExpense = (req, res) => {
+    console.log(req.body); 
     const { title, amount, category, description, date } = req.body;
 
     // Validation

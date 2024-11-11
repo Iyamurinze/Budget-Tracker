@@ -1,82 +1,65 @@
-const dbs  = require('../app'); // Import MySQL connection from app.js
-
-// Create Expense Table if it doesn't exist
-const createExpenseTable = () => {
-    const sql = `
-        CREATE TABLE IF NOT EXISTS expenses (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(50) NOT NULL,
-            amount DECIMAL(10, 2) NOT NULL,
-            type VARCHAR(20) DEFAULT 'expense',
-            date DATE NOT NULL,
-            category VARCHAR(50) NOT NULL,
-            description VARCHAR(255),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )
-    `;
-    dbs.query(sql, (err, result) => {
-        if (err) {
-            console.error("Error creating expenses table:", err);
-        } else {
-            console.log("Expenses table created or exists already.");
-        }
-    });
-};
-
-// Call function to create table on import
-createExpenseTable();
+const Expense = require('../models/model/expenseM');
 
 // Function to add a new expense record
-const addExpense = (expenseData, callback) => {
-    const { title, amount, type, date, category, description } = expenseData;
-    const sql = `INSERT INTO expenses (title, amount, type, date, category, description) VALUES (?, ?, ?, ?, ?, ?)`;
-    dbs.query(sql, [title, amount, type, date, category, description], (err, result) => {
-        callback(err, result);
-    });
+const addExpense = async (expenseData) => {
+    try {
+        const expense = await Expense.create(expenseData);
+        return expense;
+    } catch (error) {
+        console.error("Error adding expense:", error);
+        throw error;
+    }
 };
 
 // Function to get all expense records
-const getExpenses = (callback) => {
-    const sql = `SELECT * FROM expenses ORDER BY date DESC`;
-    dbs.query(sql, (err, results) => {
-        callback(err, results);
-    });
+const getExpenses = async () => {
+    try {
+        const expenses = await Expense.findAll({ order: [['date', 'DESC']] });
+        return expenses;
+    } catch (error) {
+        console.error("Error retrieving expenses:", error);
+        throw error;
+    }
 };
 
 // Function to get a specific expense record by ID
-const getExpenseById = (id, callback) => {
-    const sql = `SELECT * FROM expenses WHERE id = ?`;
-    dbs.query(sql, [id], (err, result) => {
-        callback(err, result);
-    });
+const getExpenseById = async (id) => {
+    try {
+        const expense = await Expense.findByPk(id);
+        return expense;
+    } catch (error) {
+        console.error("Error retrieving expense by ID:", error);
+        throw error;
+    }
 };
 
 // Function to update an expense record
-const updateExpense = (id, expenseData, callback) => {
-    const { title, amount, type, date, category, description } = expenseData;
-    const sql = `
-        UPDATE expenses SET title = ?, amount = ?, type = ?, date = ?, category = ?, description = ?
-        WHERE id = ?
-    `;
-    dbs.query(sql, [title, amount, type, date, category, description, id], (err, result) => {
-        callback(err, result);
-    });
+const updateExpense = async (id, expenseData) => {
+    try {
+        await Expense.update(expenseData, { where: { id } });
+        const updatedExpense = await Expense.findByPk(id);
+        return updatedExpense;
+    } catch (error) {
+        console.error("Error updating expense:", error);
+        throw error;
+    }
 };
 
 // Function to delete an expense record by ID
-const deleteExpense = (id, callback) => {
-    const sql = `DELETE FROM expenses WHERE id = ?`;
-    dbs.query(sql, [id], (err, result) => {
-        callback(err, result);
-    });
+const deleteExpense = async (id) => {
+    try {
+        await Expense.destroy({ where: { id } });
+        return { message: "Expense deleted successfully" };
+    } catch (error) {
+        console.error("Error deleting expense:", error);
+        throw error;
+    }
 };
 
-// Exporting the model functions
 module.exports = {
     addExpense,
     getExpenses,
     getExpenseById,
     updateExpense,
-    deleteExpense
+    deleteExpense,
 };

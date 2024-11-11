@@ -8,11 +8,11 @@ import IncomeItem from "../incomeItem/incomeItem";
  export default function Incomes(){
    const {addIncome,income,getIncomes,deleteIncome, totalIncome} = useGlobalContext()
    const [incomes, setIncomes] = useState([])
-    
+
    useEffect(() =>{
         getIncomes(setIncomes)
     }, [])
-   
+
     return(
         <IncomeStyled>
             <InnerLayout>
@@ -24,7 +24,7 @@ import IncomeItem from "../incomeItem/incomeItem";
 
                     <div className="incomes">
                         {incomes.map((income) =>{
-                            const {_id, title, amount, date, category, description} = income;
+                            const {_id, title, amount, date, type, category, description} = income;
                             return <IncomeItem 
                                 key={_id}
                                 id={_id}
@@ -32,6 +32,7 @@ import IncomeItem from "../incomeItem/incomeItem";
                                 description={description}
                                 amount={amount} 
                                 date={date}
+                                type={type}
                                 category={category}
                                 indicatorColor="var(--color-green)"
                                 deleteItem={deleteIncome}

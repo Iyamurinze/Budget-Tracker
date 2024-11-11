@@ -1,6 +1,5 @@
 const { addExpense, getExpenses, deleteExpense } = require('../controlles/expenses');
 const { addIncome, getIncomes, deleteIncome } = require('../controlles/income');
-
 const router = require('express').Router();
 
 // Income routes
@@ -11,7 +10,7 @@ router.post('/add-income', (req, res) => {
     });
 });
 
-router.get('/get-income', (req, res) => {
+router.get('/get-incomes', (req, res) => {
     getIncomes((err, results) => {
         if (err) return res.status(500).json({ error: 'Error fetching incomes' });
         res.status(200).json({ data: results });
@@ -33,7 +32,7 @@ router.post('/add-expense', (req, res) => {
     });
 });
 
-router.get('/get-expense', (req, res) => {
+router.get('/get-expenses', (req, res) => {
     getExpenses((err, results) => {
         if (err) return res.status(500).json({ error: 'Error fetching expenses' });
         res.status(200).json({ data: results });
