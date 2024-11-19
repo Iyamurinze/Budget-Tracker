@@ -25,4 +25,25 @@ export const GlobalStyles = createGlobalStyle`
     h1, h2, h3, h4, h5, h6{
         color: var(--primary-color)
     }
+        .error{
+          color: red;
+          animation: shake 0.5 ease-in-out;
+          @keyframes shake{
+            0%{
+               transfrom: translatex(0);
+            }
+            25%{
+              transfrom: translatex(10px); 
+            } 
+            50%{
+              transfrom: translatex(-10px);
+            }
+            75%{
+              transfrom: translatex(10px);
+            }
+            100%{
+              transfrom: translatex(0);
+            }        
+          }
+        }
 `;

@@ -1,51 +1,46 @@
-const { addExpense, getExpenses, deleteExpense } = require("../models/expenseModel");
+const { addExpense, getExpenses, deleteExpense } = require('../models/expenseModel');
 
-exports.addExpense = (req, res) => {
-    console.log(req.body); 
+exports.addExpense = async (req, res) => {
     const { title, amount, category, description, date } = req.body;
 
-    // Validation
     if (!title || !category || !description || !date) {
         return res.status(400).json({ message: 'All fields are required' });
     }
+
     if (amount <= 0 || typeof amount !== 'number') {
         return res.status(400).json({ message: 'Amount must be a positive number' });
     }
 
-    // Call addExpense from the model
     const expenseData = { title, amount, type: "expense", date, category, description };
-    addExpense(expenseData, (err, result) => {
-        if (err) {
-            return res.status(500).json({ message: 'Server error' });
-        }
+    try {
+        const result = await addExpense(expenseData);
         res.status(200).json({ message: 'Expense Added', data: result });
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 
-exports.getExpense = (req, res) => {
-    // Call getExpenses from the model
-    getExpenses((err, results) => {
-        if (err) {
-            return res.status(500).json({ message: 'Server error' });
-        }
+exports.getExpenses = async (req, res) => {
+    try {
+        const results = await getExpenses();
         if (!results || results.length === 0) {
             return res.status(404).json({ message: 'No expenses found' });
         }
         res.status(200).json(results);
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 
-exports.deleteExpense = (req, res) => {
+exports.deleteExpense = async (req, res) => {
     const { id } = req.params;
-
-    // Call deleteExpense from the model
-    deleteExpense(id, (err, result) => {
-        if (err) {
-            return res.status(500).json({ message: 'Server error' });
-        }
+    try {
+        const result = await deleteExpense(id);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Expense not found' });
         }
         res.status(200).json({ message: 'Expense Deleted' });
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };

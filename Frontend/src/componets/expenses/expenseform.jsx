@@ -7,7 +7,7 @@ import Button from "../button/button";
 import { plus } from '../../utils/icons';
 
 export default function ExpenseFrom(){
-    const {addExpense, getExpenses} = useGlobalContext()
+    const {addExpense, getExpenses, error, setError} = useGlobalContext()
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -19,6 +19,7 @@ export default function ExpenseFrom(){
     const handleInput =  (e) =>{
         const { name, value } = e.target;
         setInputState({...inputState, [name]: value})
+        setError('')
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +30,7 @@ export default function ExpenseFrom(){
     
     return(
         <ExpenseFromStyled onSubmit={handleSubmit}>
+              {error && <p className="error">{error}</p>}
             <div className="input-control">
             <input 
             type="text"

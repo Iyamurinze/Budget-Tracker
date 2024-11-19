@@ -1,49 +1,18 @@
+const express = require('express');
 const { addExpense, getExpenses, deleteExpense } = require('../controlles/expenses');
 const { addIncome, getIncomes, deleteIncome } = require('../controlles/income');
-const router = require('express').Router();
+const router = express.Router();
+
+router.get('/', (req, res) => res.send('Transaction routes are working!'));
 
 // Income routes
-router.post('/add-income', (req, res) => {
-    addIncome(req.body, (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error adding income' });
-        res.status(200).json({ message: 'Income added successfully', data: result });
-    });
-});
-
-router.get('/get-incomes', (req, res) => {
-    getIncomes((err, results) => {
-        if (err) return res.status(500).json({ error: 'Error fetching incomes' });
-        res.status(200).json({ data: results });
-    });
-});
-
-router.delete('/delete-income/:id', (req, res) => {
-    deleteIncome(req.params.id, (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error deleting income' });
-        res.status(200).json({ message: 'Income deleted successfully' });
-    });
-});
+router.post('/add-income', addIncome);
+router.get('/get-incomes', getIncomes);
+router.delete('/delete-income/:id', deleteIncome);
 
 // Expense routes
-router.post('/add-expense', (req, res) => {
-    addExpense(req.body, (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error adding expense' });
-        res.status(200).json({ message: 'Expense added successfully', data: result });
-    });
-});
-
-router.get('/get-expenses', (req, res) => {
-    getExpenses((err, results) => {
-        if (err) return res.status(500).json({ error: 'Error fetching expenses' });
-        res.status(200).json({ data: results });
-    });
-});
-
-router.delete('/delete-expense/:id', (req, res) => {
-    deleteExpense(req.params.id, (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error deleting expense' });
-        res.status(200).json({ message: 'Expense deleted successfully' });
-    });
-});
+router.post('/add-expense', addExpense);
+router.get('/get-expenses', getExpenses);
+router.delete('/delete-expense/:id', deleteExpense);
 
 module.exports = router;

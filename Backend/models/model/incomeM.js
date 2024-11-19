@@ -25,7 +25,7 @@ const Income = sequelize.define('Income', {
         type: DataTypes.TEXT,
     },
 }, {
-    tableName: 'income',  // Specify the table name
+    tableName: 'incomes',  // Specify the table name
     timestamps: false,    // Disable automatic timestamp columns
 });
 

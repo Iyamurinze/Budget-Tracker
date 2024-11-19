@@ -87,7 +87,7 @@ const transactionsHistory = () => {
     const { incomes, expenses } = useGlobalContext(); 
     const history = [...incomes, ...expenses]; 
     history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return history;
+    return history.slice(0, 3);
 };
 
 
@@ -127,6 +127,7 @@ export const GlobalProvider = ({ children }) => {
             incomes,
             expenses,
             error,
+            setError,
             addIncome, 
             getIncomes,
             deleteIncome,

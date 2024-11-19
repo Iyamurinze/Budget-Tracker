@@ -7,7 +7,7 @@ import Button from "../button/button";
 import { plus } from '../../utils/icons';
 
 export default function From(){
-    const {addIncome, getIncomes} = useGlobalContext()
+    const {addIncome, getIncomes, error, setError} = useGlobalContext()
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -19,6 +19,7 @@ export default function From(){
     const handleInput =  (e) =>{
         const { name, value } = e.target;
         setInputState({...inputState, [name]: value})
+        setError('')
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +30,7 @@ export default function From(){
     
     return(
         <FromStyled onSubmit={handleSubmit}>
+            {error && <p className="error">{error}</p>}
             <div className="input-control">
             <input 
             type="text"
