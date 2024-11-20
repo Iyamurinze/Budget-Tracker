@@ -13,8 +13,6 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
         console.log(incomeData);
         const response = await axios.post(`${BASE_URL}/add-income`, incomeData);
         setIncomes(prevIncomes => [...prevIncomes, response.data]);
-        const newIncome = await getIncomes(setIncomes);
-        console.log(newIncome, response);
 
     } catch (err) {
         console.error("Error adding income:", err);
@@ -23,9 +21,9 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
 }
 
 export const getIncomes = async (setIncomes) => {
-    const response = await axios.get(`${BASE_URL}/get-incomes`)
-    setIncomes(response.data)
-    console.log(response.data)
+    const response = await axios.get(`${BASE_URL}/get-income`)
+    setIncomes(prevIncomes => [...prevIncomes, response.data]);
+    console.log("Incomesss " , response.data)
 }
 
 const deleteIncomeAPI = async (id, setIncomes, setError) => {
@@ -55,7 +53,7 @@ const totalIncome = (incomes) => {
 
 const addExpensesAPI = async (expenseData, setExpenses, setError) => {
     try {
-        const response = await axios.post(`${BASE_URL}/add-expenses`, expenseData);
+        const response = await axios.post(`${BASE_URL}/add-expense`, expenseData);
         setExpenses(prevExpenses => [...prevExpenses, response.data]);
         await getExpenses(setExpenses);
     } catch (err) {
@@ -94,7 +92,8 @@ const transactionsHistory = () => {
 
 export const getExpenses = async (setExpenses) => {
     const response = await axios.get(`${BASE_URL}/get-expense`)
-    setExpenses(response.data)
+    console.log(response)
+    setExpenses(prevExpenses => [...prevExpenses, response.data]);
     console.log(response.data)
 }
 

@@ -7,12 +7,12 @@ router.get('/', (req, res) => res.send('Transaction routes are working!'));
 
 // Income routes
 router.post('/add-income', addIncome);
-router.get('/get-incomes', getIncomes);
+router.get('/get-income', getIncomes);
 router.delete('/delete-income/:id', deleteIncome);
 
 // Expense routes
 router.post('/add-expense', addExpense);
-router.get('/get-expenses', getExpenses);
+router.get('/get-expense', getExpenses);
 router.delete('/delete-expense/:id', deleteExpense);
 
 module.exports = router;

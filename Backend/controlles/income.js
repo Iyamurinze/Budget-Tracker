@@ -7,9 +7,9 @@ exports.addIncome = async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
-    if (amount <= 0 || typeof amount !== 'number') {
-        return res.status(400).json({ message: 'Amount must be a positive number' });
-    }
+    // if (amount < 0 || typeof amount !== 'number') {
+    //     return res.status(400).json({ message: 'Amount must be a positive number' });
+    // }
 
     const incomeData = { title, amount, type: "income", date, category, description };
     try {
@@ -23,9 +23,9 @@ exports.addIncome = async (req, res) => {
 exports.getIncomes = async (req, res) => {
     try {
         const results = await getIncomes();
-        if (!results || results.length === 0) {
-            return res.status(404).json({ message: 'No incomes found' });
-        }
+        // if (!results || results.length === 0) {
+        //     return res.status(404).json({ message: 'No incomes found' });
+        // }
         res.status(200).json(results);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
