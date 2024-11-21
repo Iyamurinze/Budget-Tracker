@@ -5,13 +5,14 @@ import { useGlobalContext } from "../../context/globalcontext";
 import ExpenseFrom from "./expenseform";
 import IncomeItem from "../incomeItem/incomeItem";
 
+
  export default function Expenses(){
-   const {addExpense,income,getExpenses,deleteExpense, totalExpenses} = useGlobalContext()
+   const {addExpense,getExpenses,deleteExpense, totalExpenses} = useGlobalContext()
    const [Expenses, setExpenses] = useState([])
     
-//    useEffect(() =>{
-//         getExpenses(setExpenses)
-//     }, [])
+   useEffect(() =>{
+        getExpenses(setExpenses)
+    }, [])
    
     return(
         <ExpenseStyled>
@@ -24,8 +25,8 @@ import IncomeItem from "../incomeItem/incomeItem";
 
                     <div className="incomes">
                         {Expenses.map((Expense) =>{
-                            const {_id, title, amount, date, type,category, description} = income;
-                            return <ExpenseItem
+                            const {_id, title, amount, date, type,category, description} = Expense;
+                            return <IncomeItem
                                 key={_id}
                                 id={_id}
                                 title={title}

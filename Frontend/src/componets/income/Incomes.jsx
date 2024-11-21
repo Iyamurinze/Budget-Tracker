@@ -6,7 +6,7 @@ import From from "../form/form";
 import IncomeItem from "../incomeItem/incomeItem";
 
  export default function Incomes(){
-   const {addIncome,income,getIncomes,deleteIncome, totalIncome} = useGlobalContext()
+   const {addIncome,getIncomes,deleteIncome, totalIncome} = useGlobalContext()
    const [incomes, setIncomes] = useState([])
 
    useEffect(() =>{

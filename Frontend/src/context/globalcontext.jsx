@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import axios from 'axios';
-import { expenses } from "../utils/icons";
-import Incomes from "../componets/income/Incomes";
 
 const BASE_URL = "http://localhost:5000/api/v1";
 const GlobalContext = React.createContext();
@@ -22,8 +20,8 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
 
 export const getIncomes = async (setIncomes) => {
     const response = await axios.get(`${BASE_URL}/get-income`)
-    setIncomes(prevIncomes => [...prevIncomes, response.data]);
-    console.log("Incomesss " , response.data)
+    setIncomes(response.data);
+    console.log("Incomes " , response.data)
 }
 
 const deleteIncomeAPI = async (id, setIncomes, setError) => {
@@ -89,11 +87,9 @@ const transactionsHistory = () => {
 };
 
 
-
 export const getExpenses = async (setExpenses) => {
     const response = await axios.get(`${BASE_URL}/get-expense`)
-    console.log(response)
-    setExpenses(prevExpenses => [...prevExpenses, response.data]);
+    setExpenses(response.data);
     console.log(response.data)
 }
 
