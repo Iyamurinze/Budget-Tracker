@@ -7,11 +7,11 @@ import { getExpenses, getIncomes, useGlobalContext } from "../../context/globalc
 import History from "../history/history";
 
  export default function Dashboard(){
-    const {totalExpenses,incomes, expenses, totalIncome, totalBalance} = useGlobalContext()
-    useEffect(() =>{
-           getIncomes()
-           getExpenses()
-    }, [])
+    const {totalExpenses,incomes, expenses, totalIncome, totalBalance,} = useGlobalContext()
+    // useEffect(() =>{
+    //        getIncomes()
+    //        getExpenses()
+    // }, [])
 
 
     return(
@@ -25,26 +25,26 @@ import History from "../history/history";
                             <div className="income">
                                 <h2>Total Incomes</h2>
                                 <p>
-                                    {dollar} {totalIncome()}
+                                    {dollar} {totalIncome(incomes)}
                                 </p>
                             </div>
                             <div className="expense">
                                 <h2>Total Expenses</h2>
                                 <p>
-                                    {dollar} {totalExpenses()}
+                                    {dollar} {totalExpenses(expenses)}
                                 </p>
                             </div>
                           <div className="balance">
                             <h2>Total Balance</h2>
                             <p>
-                                    {dollar} {totalBalance()}
+                                    {dollar} {totalBalance(incomes, expenses)}
                                 </p>
                             </div>  
                         </div>
                     </div>
                     <div className="history">
                         <History/>
-                        <h2 className="salary-title">Min <span>Salary</span>Max</h2>
+                        <h2 className="salary-title">Min <span>Incomes</span>Max</h2>
                         <div className="salary">
                             <p>
                                 {Math.min(...incomes.map(item => item.amount))}
@@ -99,7 +99,7 @@ import History from "../history/history";
          border-radius: 20px;
 
          p {
-           font-size: 3.5rem;
+           font-size: 2.5rem;
            font-weight: 700;
          }
        }
@@ -114,7 +114,7 @@ import History from "../history/history";
          p {
            color: var(--color-green);
            opacity: 0.6;
-           font-size: 4.5rem;
+           font-size: 3.5rem;
          }
        }
      }

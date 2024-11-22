@@ -6,13 +6,12 @@ require('dotenv').config();
 
 // Routes
 const transactionRoutes = require('./routes/transactions');
-
 app.use(express.json());
 app.use(cors());
 app.use('/api/v1', transactionRoutes);
 
 // Sync database
-sequelize.sync({force: true})
+sequelize.sync()
 .then(() => {
     console.log('Database Connected // Table created');
 }).catch(err => {

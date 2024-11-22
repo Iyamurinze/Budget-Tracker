@@ -8,7 +8,7 @@ import IncomeItem from "../incomeItem/incomeItem";
 
  export default function Expenses(){
    const {addExpense,getExpenses,deleteExpense, totalExpenses} = useGlobalContext()
-   const [Expenses, setExpenses] = useState([])
+   const [expenses, setExpenses] = useState([])
     
    useEffect(() =>{
         getExpenses(setExpenses)
@@ -18,16 +18,16 @@ import IncomeItem from "../incomeItem/incomeItem";
         <ExpenseStyled>
             <InnerLayout>
                 <h1>Expenses</h1>
-                <h2 className="total-income">Total Expenses: <span>$ {totalExpenses()}</span></h2>
+                <h2 className="total-income">Total Expenses: <span>$ {totalExpenses(expenses)}</span></h2>
                 <div className="income-content">
                     <div className=" form-content"></div>
                        <ExpenseFrom addIncome={addExpense} />
 
                     <div className="incomes">
-                        {Expenses.map((Expense) =>{
+                        {expenses.map((Expense, index) =>{
                             const {_id, title, amount, date, type,category, description} = Expense;
                             return <IncomeItem
-                                key={_id}
+                                key={_id || index}
                                 id={_id}
                                 title={title}
                                 description={description}

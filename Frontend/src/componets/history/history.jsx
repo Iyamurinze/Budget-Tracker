@@ -8,10 +8,10 @@ export default function History(){
     return (
         <HistoryStyled>
             <h2>Recente History</h2>
-            {history.map((item) =>{
+            {history.map((item, index) =>{
                 const {_id, title, amount, type} = item
                 return (
-                    <div key= {_id} className="historyItem">
+                    <div key= {_id || index}  className="historyItem">
                           <p style={{
                                 color: type === 'expense' ? 'red' : 'var(--color-green)'
                             }}>
@@ -33,7 +33,7 @@ const HistoryStyled = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  .history-item {
+  .historyItem { 
     background: #FCF6F9;
     border: 2px solid #FFFFFF;
     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);

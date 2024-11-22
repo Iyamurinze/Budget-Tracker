@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from 'axios';
 
 const BASE_URL = "http://localhost:5000/api/v1";
@@ -10,13 +10,15 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
     try {
         console.log(incomeData);
         const response = await axios.post(`${BASE_URL}/add-income`, incomeData);
+    
         setIncomes(prevIncomes => [...prevIncomes, response.data]);
-
+        
     } catch (err) {
         console.error("Error adding income:", err);
         setError(err.response?.data?.message || "Error occurred while adding income");
     }
 }
+
 
 export const getIncomes = async (setIncomes) => {
     const response = await axios.get(`${BASE_URL}/get-income`)
@@ -49,11 +51,12 @@ const totalIncome = (incomes) => {
 
 //calculation of expense
 
-const addExpensesAPI = async (expenseData, setExpenses, setError) => {
+const addExpensesAPI = async (expenseData, setExpenses, setError, fetchExpense) => {
     try {
         const response = await axios.post(`${BASE_URL}/add-expense`, expenseData);
+        
         setExpenses(prevExpenses => [...prevExpenses, response.data]);
-        await getExpenses(setExpenses);
+        fetchExpense();
     } catch (err) {
         console.error("Error adding Expense:", err);
         setError(err.response?.data?.message || "Error occurred while adding Expense");
@@ -63,29 +66,14 @@ const addExpensesAPI = async (expenseData, setExpenses, setError) => {
 const totalExpenses = (expenses) => {
     if (!expenses || expenses.length === 0) return 0; 
 
-    return expenses.reduce((total, Expense) => {
-        const amount = Number(Expense.amount);
+    return expenses.reduce((total, expense) => {
+        const amount = Number(expense.amount);
         if (!isNaN(amount)) {
             return total + amount; 
         }
         return total; 
     }, 0);
 };
-
-//calcurate total balance
-
-const totalBalance = () => {
-    return totalIncome() - totalExpenses()
-}
-
-// Inside GlobalContext.jsx
-const transactionsHistory = () => {
-    const { incomes, expenses } = useGlobalContext(); 
-    const history = [...incomes, ...expenses]; 
-    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    return history.slice(0, 3);
-};
-
 
 export const getExpenses = async (setExpenses) => {
     const response = await axios.get(`${BASE_URL}/get-expense`)
@@ -104,16 +92,35 @@ const deleteExpensesAPI = async (id, setExpenses, setError) => {
     }
 };
 
+//calcurate total balance
+
+const totalBalance = (incomes, expenses) => {
+    return totalIncome(incomes) - totalExpenses(expenses)
+}
+
+// Inside GlobalContext.jsx
+const transactionsHistory = () => {
+    const { incomes, expenses } = useGlobalContext(); 
+    const history = [...incomes, ...expenses]; 
+    history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return history.slice(0, 3);
+};
+
 export const GlobalProvider = ({ children }) => {
     const [incomes, setIncomes] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [error, setError] = useState(null);
 
-    const addIncome = (incomeData) => addIncomeAPI(incomeData, setIncomes, setError);
+    useEffect(() => {
+        fetchIncomes();
+        fetchExpense();
+    }, []);
+
+    const addIncome = (incomeData) => addIncomeAPI(incomeData, setIncomes, setError, fetchIncomes);
     const deleteIncome = (id) => deleteIncomeAPI(id, setIncomes, setError);
     const fetchIncomes = () => getIncomes(setIncomes);
 
-    const addExpense = (expenseData) => addExpensesAPI(expenseData, setExpenses, setError);
+    const addExpense = (expenseData) => addExpensesAPI(expenseData, setExpenses, setError, fetchExpense);
     const deleteExpense = (id) => deleteExpensesAPI(id, setExpenses, setError);
     const fetchExpense = () => getExpenses(setExpenses);
 
@@ -127,15 +134,13 @@ export const GlobalProvider = ({ children }) => {
             getIncomes,
             deleteIncome,
             totalIncome,
-            fetchIncomes,
             addExpense,
             getExpenses,
             deleteExpense,
             totalExpenses,
-            fetchExpense,
             totalBalance,
             transactionsHistory
-             }}>
+        }}>
             {children}
         </GlobalContext.Provider>
     );
