@@ -25,10 +25,10 @@ import IncomeItem from "../incomeItem/incomeItem";
 
                     <div className="incomes">
                         {expenses.map((Expense, index) =>{
-                            const {_id, title, amount, date, type,category, description} = Expense;
+                            const {id, title, amount, date, type,category, description} = Expense;
                             return <IncomeItem
-                                key={_id || index}
-                                id={_id}
+                                key={id || index}
+                                id={id}
                                 title={title}
                                 description={description}
                                 amount={amount} 

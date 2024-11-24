@@ -28,11 +28,11 @@ export default function Incomes() {
 
           <div className="incomes">
             {incomes.map((income, index) => {
-              const { _id, title, amount, date, type, category, description } = income;
+              const {id, title, amount, date, type, category, description } = income;
               return (
                 <IncomeItem
-                  key={_id || index}
-                  id={_id}
+                  key={id || index}
+                  id={id}
                   title={title}
                   description={description}
                   amount={amount}
