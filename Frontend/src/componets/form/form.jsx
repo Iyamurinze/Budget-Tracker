@@ -65,7 +65,7 @@ export default function From(){
                 <option value="" disabled>Select Option</option>
                 <option value="salary">salary</option>
                 <option value="freelancing">Freelancing</option>
-                <option value="investiment">investments</option>
+                <option value="investments">investments</option>
                 <option value="stocks">stocks</option>
                 <option value="bitcoin">Bitcoin</option>
                 <option value="bank">Bank Transfer</option>

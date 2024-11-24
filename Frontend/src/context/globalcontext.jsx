@@ -8,7 +8,6 @@ const GlobalContext = React.createContext();
 
 export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
     try {
-        console.log(incomeData);
         const response = await axios.post(`${BASE_URL}/add-income`, incomeData);
     
         setIncomes(prevIncomes => [...prevIncomes, response.data]);
@@ -51,12 +50,12 @@ const totalIncome = (incomes) => {
 
 //calculation of expense
 
-const addExpensesAPI = async (expenseData, setExpenses, setError, fetchExpense) => {
+const addExpensesAPI = async (expenseData, setExpenses, setError) => {
     try {
         const response = await axios.post(`${BASE_URL}/add-expense`, expenseData);
         
         setExpenses(prevExpenses => [...prevExpenses, response.data]);
-        fetchExpense();
+
     } catch (err) {
         console.error("Error adding Expense:", err);
         setError(err.response?.data?.message || "Error occurred while adding Expense");
@@ -151,3 +150,4 @@ export const useGlobalContext = () => {
 };
 
 export default GlobalContext;
+
