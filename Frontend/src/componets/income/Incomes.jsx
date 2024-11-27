@@ -11,7 +11,7 @@ export default function Incomes() {
 
   useEffect(() => {
     getIncomes(setIncomes);
-  }, [getIncomes]);
+  }, []);
 
   const handleDeleteIncome = (id) => {
     deleteIncome(id);  

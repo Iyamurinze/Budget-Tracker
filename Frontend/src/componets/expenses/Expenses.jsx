@@ -12,7 +12,7 @@ import IncomeItem from "../incomeItem/incomeItem";
     
    useEffect(() =>{
         getExpenses(setExpenses)
-    }, [getExpenses])
+    }, [])
    
     return(
         <ExpenseStyled>
