@@ -4,11 +4,12 @@ const sequelize = require('./db/dbs');
 const app = express();
 require('dotenv').config();
 
+
 // Routes
-const transactionRoutes = require('./routes/transactions');
+const routes = require('./routes/transactions');
 app.use(express.json());
 app.use(cors());
-app.use('/api/v1', transactionRoutes);
+app.use('/api/v1', routes);
 
 // Sync database
 sequelize.sync()
