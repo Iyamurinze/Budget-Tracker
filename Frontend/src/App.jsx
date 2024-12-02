@@ -24,7 +24,6 @@ function PrivateRoute({ children }) {
 function App() {
   const [active, setActive] = useState(1);
   const global = useGlobalContext();
-  console.log(global);
 
   const displayData = () => {
     switch (active) {
@@ -54,11 +53,10 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            
 
             {/* Private Route */}
-            <Route
-              path="/dashboard"
-              element={
+            <Route path="/dashboard" element={
                 <PrivateRoute>
                   <AppStyled bg={bg} className="App">
                       {orbMemo}
@@ -67,7 +65,7 @@ function App() {
                              <main>{displayData()}</main>
                          </MainLayout>
                  </AppStyled>
-                </PrivateRoute>
+                 </PrivateRoute>
               }
             />
           </Routes>

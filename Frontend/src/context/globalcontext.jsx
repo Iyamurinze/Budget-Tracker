@@ -22,7 +22,6 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
 export const getIncomes = async (setIncomes) => {
     const response = await axios.get(`${BASE_URL}/get-income`)
     setIncomes(response.data);
-    console.log("Incomes " , response.data)
 }
 
 const deleteIncomeAPI = async (id, setIncomes, setError) => {
@@ -77,7 +76,6 @@ const totalExpenses = (expenses) => {
 export const getExpenses = async (setExpenses) => {
     const response = await axios.get(`${BASE_URL}/get-expense`)
     setExpenses(response.data);
-    console.log(response.data)
 }
 
 const deleteExpensesAPI = async (id, setExpenses, setError) => {

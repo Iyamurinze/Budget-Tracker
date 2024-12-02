@@ -18,7 +18,7 @@ const AuthContainer = styled.div`
 // Styled component for the form card container
 const AuthCard = styled.div`
   width: 100%;
-  max-width: 28rem;
+  max-width: 36rem;
   background: rgba(252, 246, 249, 0.78);
   border: 3px solid #FFFFFF;
   backdrop-filter: blur(4.5px);

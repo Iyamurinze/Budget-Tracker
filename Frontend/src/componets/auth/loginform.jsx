@@ -12,9 +12,10 @@ export function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Login Form Data:", { email, password });
     try {
       await login({ email, password });
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       setError('Invalid email or password');
     }
@@ -72,12 +73,12 @@ const FormContainer = styled.div`
 `;
 
 const FormCard = styled.div`
-  width: 200%;
-  max-width: 30rem;
+  width: 100%;
+  max-width: 35rem;
   background: rgba(252, 246, 249, 0.78);
   border: 3px solid #FFFFFF;
   backdrop-filter: blur(4.5px);
-  border-radius: 32px;
+  border-radius: 20px;
   padding: 2rem;
   overflow: hidden;
 `;
@@ -118,15 +119,15 @@ const InputField = styled.input`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 1rem;
-  background-color: #8b5cf6;
-  color: #ffffff;
+  background-color: #F56692;
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   margin-top: 1.5rem;
   cursor: pointer;
 
-  &:hover {
-    background-color: #6b3d9e;
+   &:hover {
+               background: var(--color-green) !important;
   }
 `;
 

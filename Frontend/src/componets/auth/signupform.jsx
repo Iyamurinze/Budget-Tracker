@@ -84,7 +84,7 @@ const FormContainer = styled.div`
 
 const FormCard = styled.div`
   width: 100%;
-  max-width: 28rem;
+  max-width: 35rem;
   background: rgba(252, 246, 249, 0.78);
   border: 3px solid #FFFFFF;
   backdrop-filter: blur(4.5px);
@@ -121,15 +121,16 @@ const InputField = styled.input`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 1rem;
-  background-color: #8b5cf6;
-  color: #ffffff;
+  background-color: #F56692;
+  color: #FFFFFF;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
+  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
   margin-top: 1.5rem;
   cursor: pointer;
 
-  &:hover {
-    background-color: #6b3d9e;
+   &:hover {
+    background: var(--color-green) !important;
   }
 `;
 

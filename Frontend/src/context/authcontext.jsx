@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   });
 
   const login = useCallback(async (credentials) => {
+    console.log("Login credentials sent to backend:", credentials);
     try {
       const response = await fetch('http://localhost:5000/api/v1/login', {
         method: 'POST',
@@ -20,6 +21,7 @@ export function AuthProvider({ children }) {
 
       const user = await response.json();
       setAuthState({ user, isAuthenticated: true });
+
     } catch (error) {
       console.error('Login error:', error);
       throw error;
