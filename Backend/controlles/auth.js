@@ -9,7 +9,7 @@ const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists 
+    // Check if user already existing 
     const existingUser = await User.findOne({ where: { email } });
   
     if (existingUser) {
@@ -62,14 +62,14 @@ const login = async (req, res) => {
     }
 
     // Generate token
-    // const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
 
-    // res.json({
-    //   id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   token,
-    // });
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      token,
+    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Server error' });
