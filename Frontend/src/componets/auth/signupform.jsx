@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/authcontext';
 import styled from 'styled-components';
-import axios from 'axios';
+
 
 export function SignupForm() {
   const [name, setName] = useState('');
@@ -17,6 +17,7 @@ export function SignupForm() {
     try {
       await signup({ name, email, password });
       navigate('/login');
+
     } catch (err) {
       setError('Failed to create account');
     }

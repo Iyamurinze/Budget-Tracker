@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (credentials) => {
     console.log("Login credentials sent to backend:", credentials);
     try {
-      const response = await fetch('http://localhost:5000/api/v1/login', {
+      const response = await fetch('/api/v1/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
 
   const signup = useCallback(async (credentials) => {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/signup', {
+      const response = await fetch('/api/v1/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),

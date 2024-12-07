@@ -12,7 +12,6 @@ export function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Form Data:", { email, password });
     try {
       await login({ email, password });
       navigate('/dashboard');
