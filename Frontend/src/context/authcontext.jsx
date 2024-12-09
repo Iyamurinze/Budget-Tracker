@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
       });
 
       if (!response.ok) throw new Error('Login failed');
-
+      alert(errorData.message);
       const user = await response.json();
       setAuthState({ user, isAuthenticated: true });
 

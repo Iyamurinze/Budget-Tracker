@@ -61,7 +61,7 @@ export function LoginForm() {
 
 // Styled components for the LoginForm
 const FormContainer = styled.div`
-  height: 50vh;
+  height: 60vh;
   background-size: cover;
   background-position: center;
   position: relative;

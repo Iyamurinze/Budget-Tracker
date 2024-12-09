@@ -74,7 +74,7 @@ export function SignupForm() {
 
 // Styled components for the SignupForm
 const FormContainer = styled.div`
-  height: 50vh;
+  height: 60vh;
   background-size: cover;
   background-position: center;
   position: relative;
