@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import avatar from '../../img/avatar.png';
 import { menuItems } from "../../utils/menuItems";
 import { signout } from "../../utils/icons";
 
 export default function Navigation({ active, setActive }) {
+    const [userName, setUserName] = useState("User"); // Default name
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Replace with your logic to fetch the user name, e.g., from an API or global state
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch("/api/v1/user"); // Example endpoint
+            if (response.ok) {
+              const data = await response.json();
+              setUserName(data.name); // Assuming `name` is the property from the response
+            } else {
+              console.error("Failed to fetch user data");
+            }
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+          }
+        };
+    
+        fetchUserData();
+      }, []);
+    
+      // Handle logout and redirect
+      const handleSignOut = () => {
+        navigate("/login"); 
+      };
     const NavStyled = styled.nav`
         padding: 2rem 1.5rem;
         width: 260px;
@@ -102,7 +129,7 @@ export default function Navigation({ active, setActive }) {
             <div className="user-icon">
                 <img src={avatar} alt="" />
                 <div className="text">
-                    <h2>Mike</h2>
+                    {/* <h2>{userName}</h2> */}
                     <p>Your Money</p>
                 </div>
             </div>
@@ -119,7 +146,7 @@ export default function Navigation({ active, setActive }) {
                 ))}
             </ul>
             <div className="bottom-nav">
-                <li>
+                <li onClick={handleSignOut}>
                     {signout} Sign Out
                 </li>
             </div>

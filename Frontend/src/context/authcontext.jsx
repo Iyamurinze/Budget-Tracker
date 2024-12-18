@@ -17,14 +17,17 @@ export function AuthProvider({ children }) {
         body: JSON.stringify(credentials),
       });
 
-      if (!response.ok) throw new Error('Login failed');
-      alert(errorData.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+  
       const user = await response.json();
       setAuthState({ user, isAuthenticated: true });
-
     } catch (error) {
       console.error('Login error:', error);
-      throw error;
+      alert(error.message); 
+      throw error; 
     }
   }, []);
 
