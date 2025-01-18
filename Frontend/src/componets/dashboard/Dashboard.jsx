@@ -8,12 +8,7 @@ import History from "../history/history";
 
  export default function Dashboard(){
     const {totalExpenses,incomes, expenses, totalIncome, totalBalance,} = useGlobalContext()
-    // useEffect(() =>{
-    //        getIncomes()
-    //        getExpenses()
-    // }, [])
-
-
+    
     return(
         <DashboardStyled>
             <InnerLayout>
