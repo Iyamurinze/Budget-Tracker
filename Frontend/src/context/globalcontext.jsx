@@ -8,8 +8,12 @@ const GlobalContext = React.createContext();
 
 export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
     try {
-        const response = await axios.post(`${BASE_URL}/add-income`, incomeData);
-    
+        const token = localStorage.getItem('token');
+const response = await axios.post(`${BASE_URL}/add-income`, incomeData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         setIncomes(prevIncomes => [...prevIncomes, response.data]);
         
     } catch (err) {
@@ -20,17 +24,32 @@ export const addIncomeAPI = async (incomeData, setIncomes, setError) => {
 
 
 export const getIncomes = async (setIncomes) => {
-    const response = await axios.get(`${BASE_URL}/get-income`)
-    setIncomes(response.data);
-}
+    try {
+        const token = localStorage.getItem('token');  
+        const response = await axios.get(`${BASE_URL}/get-income`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        setIncomes(response.data);
+    } catch (err) {
+        console.error("Error fetching incomes:", err);
+    }
+};
 
 const deleteIncomeAPI = async (id, setIncomes, setError) => {
     try {
-        await axios.delete(`${BASE_URL}/delete-income/${id}`);
+        const token = localStorage.getItem('token');
+        await axios.delete(`${BASE_URL}/delete-income/${id}`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         await getIncomes(setIncomes);
         setIncomes(prevIncomes => prevIncomes.filter(income => income._id !== id));
     } catch (err) {
         console.error("Error deleting income:", err);
+        console.log(err);
         setError(err.response?.data?.message || "Error occurred while deleting income");
     }
 };
@@ -51,7 +70,12 @@ const totalIncome = (incomes) => {
 
 const addExpensesAPI = async (expenseData, setExpenses, setError) => {
     try {
-        const response = await axios.post(`${BASE_URL}/add-expense`, expenseData);
+        const token = localStorage.getItem('token');
+        const response = await axios.post(`${BASE_URL}/add-expense`, expenseData,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         
         setExpenses(prevExpenses => [...prevExpenses, response.data]);
 
@@ -74,13 +98,21 @@ const totalExpenses = (expenses) => {
 };
 
 export const getExpenses = async (setExpenses) => {
-    const response = await axios.get(`${BASE_URL}/get-expense`)
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${BASE_URL}/get-expense`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+    }});
     setExpenses(response.data);
 }
 
 const deleteExpensesAPI = async (id, setExpenses, setError) => {
     try {
-        await axios.delete(`${BASE_URL}/delete-expense/${id}`);
+        const token = localStorage.getItem('token');
+        await axios.delete(`${BASE_URL}/delete-expense/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+        }});
         await getExpenses(setExpenses);
         setExpenses(prevExpenses => prevExpenses.filter(Expense => Expense._id !== id));
     } catch (err) {
