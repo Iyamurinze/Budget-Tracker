@@ -2,6 +2,17 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/dbs');
 
 const Expense = sequelize.define('Expense', {
+    id: { 
+        type: DataTypes.INTEGER, 
+        autoIncrement: true, 
+        primaryKey: true
+     },
+
+    userId: { 
+        type: DataTypes.INTEGER,
+         allowNull: false 
+        },
+
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,5 +40,9 @@ const Expense = sequelize.define('Expense', {
     tableName: 'expenses',  // Explicitly specify the table name if needed
     timestamps: true,       // Automatically adds `createdAt` and `updatedAt`
 });
+
+Expense.associate = (models) => {
+    Expense.belongsTo(models.User, { foreignKey: "userId" });
+  };
 
 module.exports = Expense;

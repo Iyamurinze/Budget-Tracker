@@ -7,7 +7,9 @@ const sequelize = new Sequelize(
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
+        port: process.env.DB_PORT,  // Add port explicitly
         dialect: process.env.DB_DIALECT,
+        logging: false,  // Disable logging (optional)
         pool: {
             max: 10,
             min: 0,
@@ -19,8 +21,7 @@ const sequelize = new Sequelize(
 
 // Test the connection
 sequelize.authenticate()
-    .then(() => console.log('Database connected successfully'))
-    .catch(err => console.error('Unable to connect to the database:', err));
+    .then(() => console.log('PostgreSQL database connected successfully'))
+    .catch(err => console.error('Unable to connect to the PostgreSQL database:', err));
 
 module.exports = sequelize;
-

@@ -14,7 +14,7 @@ const addExpense = async (expenseData) => {
 // Function to get all expense records
 const getExpenses = async () => {
     try {
-        const expenses = await Expense.findAll({ order: [['date', 'DESC']] });
+        const expenses = await Expense.findAll({ userId: req.user.id });
         return expenses;
     } catch (error) {
         console.error("Error retrieving expenses:", error);

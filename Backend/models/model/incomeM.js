@@ -2,6 +2,17 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/dbs');
 
 const Income = sequelize.define('Income', {
+    id: { 
+        type: DataTypes.INTEGER, 
+        autoIncrement: true, 
+        primaryKey: true
+     },
+
+    userId: { 
+        type: DataTypes.INTEGER,
+         allowNull: false 
+        },
+
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -28,5 +39,8 @@ const Income = sequelize.define('Income', {
     tableName: 'incomes',  // Specify the table name
     timestamps: false,    // Disable automatic timestamp columns
 });
+Income.associate = (models) => {
+    Income.belongsTo(models.User, { foreignKey: "userId" });
+  };
 
 module.exports = Income;

@@ -1,7 +1,7 @@
-const Income = require('../models/model/incomeM');
+import Income from "../models/model/incomeM.js";
 
 // Function to add a new income record
-const addIncome = async (incomeData) => {
+export const addIncome = async (incomeData) => {
     try {
         const income = await Income.create(incomeData);
         return income;
@@ -12,18 +12,25 @@ const addIncome = async (incomeData) => {
 };
 
 // Function to get all income records
-const getIncomes = async () => {
+export const getIncomes = async (req, res) => {
     try {
-        const incomes = await Income.findAll({ order: [['date', 'DESC']] });
-        return incomes;
+        console.log("Decoded token user:", req.user); // Debugging
+
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: "Unauthorized access" });
+        }
+
+        const incomes = await Income.findAll({ where: { userId: req.user.id } });
+
+        res.status(200).json(incomes);
     } catch (error) {
         console.error("Error retrieving incomes:", error);
-        throw error;
+        res.status(500).json({ message: "Error fetching incomes" });
     }
 };
 
 // Function to get a specific income record by ID
-const getIncomeById = async (id) => {
+export const getIncomeById = async (id) => {
     try {
         const income = await Income.findByPk(id);
         return income;
@@ -34,7 +41,7 @@ const getIncomeById = async (id) => {
 };
 
 // Function to update an income record
-const updateIncome = async (id, incomeData) => {
+export const updateIncome = async (id, incomeData) => {
     try {
         await Income.update(incomeData, { where: { id } });
         const updatedIncome = await Income.findByPk(id);
@@ -46,7 +53,7 @@ const updateIncome = async (id, incomeData) => {
 };
 
 // Function to delete an income record by ID
-const deleteIncome = async (id) => {
+export const deleteIncome = async (id) => {
     try {
         await Income.destroy({ where: { id } });
         return { message: "Income deleted successfully" };
@@ -54,12 +61,4 @@ const deleteIncome = async (id) => {
         console.error("Error deleting income:", error);
         throw error;
     }
-};
-
-module.exports = {
-    addIncome,
-    getIncomes,
-    getIncomeById,
-    updateIncome,
-    deleteIncome,
 };

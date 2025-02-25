@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('./model/userM');
 
@@ -17,7 +16,7 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash the password
+    // Hash the password (still hashed for storing, no password comparison in login)
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -27,7 +26,6 @@ const signup = async (req, res) => {
     // Generate a JWT token
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
-    // Send success response
     res.status(201).json({
       message: 'Signup successful',
       id: newUser.id,
@@ -41,10 +39,10 @@ const signup = async (req, res) => {
   }
 };
 
-// Login function
+// Login function (without password comparison)
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     // Check if the user exists
     const user = await User.findOne({ where: { email } });
@@ -52,16 +50,9 @@ const login = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-     // Compare the provided password with the hashed password in the database
-     const isMatch = await bcrypt.compare(password, user.password);
-     if (isMatch) {
-       return res.status(400).json({ message: 'you are welcome' });
-     }
-
-    // Generate a JWT token
+    // Generate JWT token
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
 
-    // Send success response
     res.status(200).json({
       message: 'Login successful, welcome...',
       id: user.id,
